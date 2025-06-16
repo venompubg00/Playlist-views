@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>مشاهدة الفيديو</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      overflow: hidden;
+      font-family: sans-serif;
+    }
+
+    .loading-screen {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-color: #111;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      z-index: 10;
+      transition: opacity 0.5s ease;
+    }
+
+    .iframe-container {
+      width: 90%;
+      max-width: 960px;
+      aspect-ratio: 16 / 9;
+      box-shadow: 0 0 30px rgba(255, 0, 0, 0.4);
+      border-radius: 12px;
+      overflow: hidden;
+      display: none;
+    }
+
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      border-radius: 12px;
+    }
+
+    button.fake-trigger {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      cursor: pointer;
+      z-index: 20;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- الزر الشفاف اللي بيتفاعل بيه المستخدم -->
+  <button class="fake-trigger" onclick="startVideo()"></button>
+
+  <!-- شاشة تحميل -->
+  <div class="loading-screen" id="loader">جاري التحميل...</div>
+
+  <!-- الفيديو -->
+  <div class="iframe-container" id="videoBox">
+    <iframe
+      id="ytplayer"
+      src=""
+      allow="autoplay; encrypted-media"
+      allowfullscreen
+      title="YouTube video"
+    ></iframe>
+  </div>
+
+  <script>
+    function startVideo() {
+      // نلغي الزر الشفاف
+      document.querySelector('.fake-trigger').style.display = 'none';
+
+      // نحط لينك الفيديو داخل iframe (يوتيوب يحسب مشاهدة)
+      const iframe = document.getElementById("ytplayer");
+      iframe.src = "https://www.youtube.com/embed/D7ZFU1PJqC0?list=PL_jxUY19-JXTZVC4j9x2A58ozATWwYm9_&index=1&autoplay=1&mute=1&rel=0&modestbranding=1";
+
+      // نخفي شاشة التحميل ونعرض الفيديو
+      setTimeout(() => {
+        document.getElementById("loader").style.opacity = "0";
+        setTimeout(() => {
+          document.getElementById("loader").style.display = "none";
+          document.getElementById("videoBox").style.display = "block";
+        }, 500);
+      }, 2000); // ممكن تزود المدة هنا حسب الطُعم
+    }
+  </script>
+
+</body>
+</html>
